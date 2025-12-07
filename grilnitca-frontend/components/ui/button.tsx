@@ -2,7 +2,7 @@ import * as React from "react";
 import { Slot } from "@radix-ui/react-slot";
 import { cva, type VariantProps } from "class-variance-authority";
 
-import { cn } from "@/lib/utils";
+import clsx from "clsx";
 import { Loader2 } from "lucide-react";
 
 const buttonVariants = cva(
@@ -58,7 +58,7 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
     return (
       <Comp
         disabled={disabled || loading}
-        className={cn(buttonVariants({ variant, size, className }))}
+        className={clsx(buttonVariants({ variant, size, className }))}
         ref={ref}
         {...props}
       >

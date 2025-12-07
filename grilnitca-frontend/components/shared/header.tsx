@@ -1,6 +1,6 @@
 import React from "react";
 import Image from "next/image";
-import { cn } from "@/lib/utils";
+import clsx from "clsx";
 import { Container } from "./container";
 import { Button } from "../ui";
 import { User, ShoppingCart, ArrowRight } from "lucide-react";
@@ -11,7 +11,7 @@ export interface HeaderProps {
 
 export const Header: React.FC<HeaderProps> = ({ className }) => {
   return (
-    <header className={cn("border border-b", className)}>
+    <header className={clsx("border border-b", className)}>
       <Container className="flex items-center justify-between py-8">
         <div className="flex items-center gap-4">
           <Image

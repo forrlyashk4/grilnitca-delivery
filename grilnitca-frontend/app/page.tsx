@@ -1,3 +1,11 @@
+import { Container, Title } from "@/components/shared";
+
 export default function Home() {
-  return <h1>hi</h1>;
+  return (
+    <>
+      <Container className="mt-12">
+        <Title size="2xl">Наше меню</Title>
+      </Container>
+    </>
+  );
 }
