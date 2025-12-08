@@ -4,7 +4,7 @@ export { Drawer } from "./drawer";
 export { DropdownMenu } from "./dropdown-menu";
 export { Button } from "./button";
 export { Input } from "./input";
-export { Popover } from "./popover";
+export { Popover, PopoverContent, PopoverTrigger } from "./popover";
 export { Select } from "./select";
 export { Skeleton } from "./skeleton";
 export { Slider } from "./slider";
