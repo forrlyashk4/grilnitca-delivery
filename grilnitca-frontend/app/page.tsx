@@ -1,4 +1,4 @@
-import { Container, Title, TopBar } from "@/components/shared";
+import { Container, Title, TopBar, Filters } from "@/components/shared";
 
 export default function Home() {
   return (
@@ -9,7 +9,12 @@ export default function Home() {
 
       <TopBar />
 
-      <div style={{ height: 3000, background: "red" }}></div>
+      <Container>
+        <div className="flex items-start gap-15 mt-4">
+          <Filters className="w-61" />
+          <h1>привет!</h1>
+        </div>
+      </Container>
     </>
   );
 }

@@ -28,6 +28,7 @@ export const Categories: React.FC<CategoriesProps> = ({ className }) => {
             <Button
               variant={activeIndex === item[0] ? "default" : "ghost"}
               onClick={() => setActiveIndex(item[0])}
+              className={activeIndex === item[0] ? "" : "cursor-pointer"}
             >
               {item[1]}
             </Button>

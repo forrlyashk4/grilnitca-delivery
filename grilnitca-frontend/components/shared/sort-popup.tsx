@@ -24,13 +24,13 @@ export const SortPopup: React.FC<SortPopupProps> = ({ className }) => {
     <Popover open={openPopup}>
       <PopoverTrigger
         className={clsx(
-          "py-1.5 px-5 bg-gray-50 rounded-md flex gap-1.5 items-center",
+          "py-1.5 px-5 bg-gray-50 rounded-md flex gap-1.5 items-center cursor-pointer",
           className
         )}
         onClick={() => setOpenPopup(!openPopup)}
       >
         <ArrowUpDown size={16} />
-        Сортировка по:
+        Сортировка:
         <span className="text-primary">{activeSorting}</span>
       </PopoverTrigger>
       <PopoverContent className="width-60 border-none">
