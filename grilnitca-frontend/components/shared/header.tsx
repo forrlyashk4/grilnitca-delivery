@@ -29,12 +29,15 @@ export const Header: React.FC<HeaderProps> = ({ className }) => {
         </div>
 
         <div className="flex gap-3">
-          <Button variant="outline" className="flex items-center gap-2">
+          <Button
+            variant="outline"
+            className="flex items-center gap-2 cursor-pointer"
+          >
             <User size={16} />
             <span className="leading-[initial]">Войти</span>
           </Button>
           <div>
-            <Button className="group relative">
+            <Button className="group relative cursor-pointer">
               <b className="leading-[initial]">520 ₽</b>
               <span className="h-full w-px bg-white/30 mx-3" />
               <div className="flex items-center gap-1 transition duration-300 group-hover:opacity-0">

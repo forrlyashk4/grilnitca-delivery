@@ -10,7 +10,7 @@ export interface TopBarProps {
 
 export const TopBar: React.FC<TopBarProps> = ({ className }) => {
   return (
-    <div className={clsx("py-5 sticky top-0 bg-white", className)}>
+    <div className={clsx("py-5 sticky top-0 bg-white z-10", className)}>
       <Container>
         <div className="flex justify-between">
           <Categories />

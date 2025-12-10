@@ -18,18 +18,18 @@ const titleTags: Record<TitleSizes, string> = {
 };
 
 const titleFonts: Record<TitleSizes, string> = {
-  xs: "xs",
-  s: "sm",
-  m: "base",
-  l: "lg",
-  xl: "xl",
-  "2xl": "2xl",
+  xs: "base",
+  s: "lg",
+  m: "xl",
+  l: "2xl",
+  xl: "3xl",
+  "2xl": "4xl",
 };
 
 export const Title: React.FC<TitleProps> = ({ className, size, children }) => {
   return createElement(
     titleTags[size],
-    { className: clsx(`text-${titleFonts[size]} font-bold`, className) },
+    { className: clsx(className, `text-${titleFonts[size]} font-bold`) },
     children
   );
 };

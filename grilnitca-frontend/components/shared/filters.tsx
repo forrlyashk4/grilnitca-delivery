@@ -16,7 +16,7 @@ export const Filters: React.FC<FiltersProps> = ({ className }) => {
         <Input type="number" placeholder="До 9999₽" min={0} max={9999} />
       </div>
       <FiltersGroup />
-      <Button className="mt-3 w-full">Применить</Button>
+      <Button className="mt-3 w-full cursor-pointer">Применить</Button>
     </div>
   );
 };
