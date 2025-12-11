@@ -1,8 +1,8 @@
 "use client";
 import clsx from "clsx";
-import React, { useState } from "react";
+import React from "react";
 import { Button } from "../ui";
-
+import { useCategoryStore } from "@/store/category";
 export interface CategoriesProps {
   className?: string;
 }
@@ -18,7 +18,7 @@ export const Categories: React.FC<CategoriesProps> = ({ className }) => {
     [6, "Вок"],
   ];
 
-  const [activeIndex, setActiveIndex] = useState(0);
+  const activeId = useCategoryStore((state) => state.activeId);
 
   const handleScrollToCategory = (categoryId: string) => {
     const htmlElement = document.getElementById(categoryId);
@@ -38,12 +38,11 @@ export const Categories: React.FC<CategoriesProps> = ({ className }) => {
         return (
           <Button
             key={item[0]}
-            variant={activeIndex === item[0] ? "default" : "ghost"}
+            variant={activeId === item[1] ? "default" : "ghost"}
             onClick={() => {
               handleScrollToCategory(item[1]);
-              setActiveIndex(item[0]);
             }}
-            className={activeIndex === item[0] ? "" : "cursor-pointer"}
+            className={activeId === item[1] ? "" : "cursor-pointer"}
           >
             {item[1]}
           </Button>

@@ -3,6 +3,7 @@ import React, { useEffect, useRef } from "react";
 import { Title } from "./title";
 import { ProductCard } from "./product-card";
 import { useIntersection } from "react-use";
+import { useCategoryStore } from "@/store/category";
 export interface MenuCategoryProps {
   className?: string;
   title: string;
@@ -12,6 +13,8 @@ export const MenuCategory: React.FC<MenuCategoryProps> = ({
   className,
   title,
 }) => {
+  const updateId = useCategoryStore((state) => state.updateId);
+
   const intersectionRef = useRef<HTMLDivElement | null>(null);
   const intersection = useIntersection(
     intersectionRef as React.RefObject<HTMLDivElement>,
@@ -23,9 +26,9 @@ export const MenuCategory: React.FC<MenuCategoryProps> = ({
 
   useEffect(() => {
     if (intersection?.isIntersecting) {
-      console.log(title, "на коне");
+      updateId(title);
     }
-  }, [intersection, title]);
+  }, [intersection, updateId, title]);
 
   return (
     <div className={className} id={title}>
