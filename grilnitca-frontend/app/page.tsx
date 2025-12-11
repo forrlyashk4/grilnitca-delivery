@@ -10,7 +10,7 @@ export default function Home() {
   return (
     <>
       <Container className="mt-12">
-        <Title size="2xl">Наше меню</Title>
+        <Title size="xl">Наше меню</Title>
       </Container>
 
       <TopBar />
@@ -19,8 +19,13 @@ export default function Home() {
         <div className="flex items-start gap-15 mt-4">
           <Filters className="w-61" />
           <div>
-            <MenuCategory />
-            <MenuCategory />
+            <MenuCategory title="Пицца" />
+            <MenuCategory title="Роллы" />
+            <MenuCategory title="Шаурма" />
+            <MenuCategory title="Напитки" />
+            <MenuCategory title="Просто поесть" />
+            <MenuCategory title="Фри" />
+            <MenuCategory title="Вок" />
           </div>
         </div>
       </Container>

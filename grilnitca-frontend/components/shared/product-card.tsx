@@ -12,7 +12,7 @@ export interface ProductCardProps {
 export const ProductCard: React.FC<ProductCardProps> = ({ className }) => {
   return (
     <div className={clsx("w-72", className)}>
-      <div className="bg-red-50 p-5 relative z-0 w-72 h-72 rounded-md object-cover z-0">
+      <div className="bg-red-50 p-5 relative w-72 h-72 rounded-md object-cover z-0">
         <Image
           fill
           src="https://novoaltaisk.grilnica.ru/cdn/ea2845fbce9df862e6c7ee1cbc15c219_ehsuyrn5ctl.png"

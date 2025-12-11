@@ -18,7 +18,7 @@ export const FiltersGroup: React.FC<FiltersGroupProps> = ({ className }) => {
     ["Зелень", 6],
   ];
   const [isShowAll, setShowAll] = useState(false);
-  const itemsToShow = 2;
+  const itemsToShow = 4;
 
   const [searchStr, setSearchStr] = useState("");
   const filteredIngredients = ingredients.filter((item) =>
