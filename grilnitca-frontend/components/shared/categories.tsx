@@ -38,7 +38,7 @@ export const Categories: React.FC<CategoriesProps> = ({ className }) => {
         return (
           <Button
             key={item[0]}
-            variant={activeId === item[1] ? "default" : "ghost"}
+            variant={activeId === item[1] ? "secondary" : "ghost"}
             onClick={() => {
               handleScrollToCategory(item[1]);
             }}
