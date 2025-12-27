@@ -6,7 +6,7 @@ import {
   MenuCategory,
 } from "@/components/shared";
 
-export default function Home() {
+export default async function Home() {
   return (
     <>
       <Container className="mt-12">
