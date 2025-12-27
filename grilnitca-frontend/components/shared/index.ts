@@ -4,3 +4,4 @@ export { Title } from "./title";
 export { TopBar } from "./topbar";
 export { Filters } from "./filters";
 export { MenuCategory } from "./menu-category";
+export { ProductSearch } from "./product-search";

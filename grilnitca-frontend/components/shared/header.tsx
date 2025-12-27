@@ -4,6 +4,7 @@ import clsx from "clsx";
 import { Container } from "./container";
 import { Button } from "../ui";
 import { User, ShoppingCart, ArrowRight } from "lucide-react";
+import { ProductSearch } from ".";
 
 export interface HeaderProps {
   className?: string;
@@ -12,8 +13,8 @@ export interface HeaderProps {
 export const Header: React.FC<HeaderProps> = ({ className }) => {
   return (
     <header className={clsx("border border-b", className)}>
-      <Container className="flex items-center justify-between py-8">
-        <div className="flex items-center gap-4">
+      <Container className="flex items-center justify-between py-8 gap-8">
+        <div className="flex items-center gap-4 mr-8">
           <Image
             src="./logo.svg"
             alt="Логотип Грильницы"
@@ -27,6 +28,8 @@ export const Header: React.FC<HeaderProps> = ({ className }) => {
             </p>
           </div>
         </div>
+
+        <ProductSearch />
 
         <div className="flex gap-3">
           <Button

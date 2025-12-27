@@ -27,7 +27,7 @@ export const FiltersGroup: React.FC<FiltersGroupProps> = ({ className }) => {
 
   return (
     <div className={className}>
-      <Title size="m">Ингредиенты:</Title>
+      <Title size="m">Можно добавить:</Title>
       <div>
         {isShowAll && (
           <Input
