@@ -1,9 +1,15 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  /* config options here */
   images: {
-    domains: ["novoaltaisk.grilnica.ru"],
+    remotePatterns: [
+      {
+        protocol: "https",
+        hostname: "novoaltaisk.grilnica.ru",
+        port: "",
+        pathname: "/**",
+      },
+    ],
   },
 };
 
