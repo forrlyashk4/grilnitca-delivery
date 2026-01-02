@@ -1,10 +1,8 @@
 import { Ingredient } from "../generated/prisma/client";
 import { axiosInstance } from "./axios-instance";
 
-export const ingredientList = async (query: string) => {
-  const { data } = await axiosInstance.get<Ingredient[]>("/ingredients", {
-    params: { query },
-  });
+export const ingredientList = async () => {
+  const { data } = await axiosInstance.get<Ingredient[]>("/ingredients");
 
   return data;
 };

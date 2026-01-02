@@ -3,21 +3,16 @@ import clsx from "clsx";
 import React from "react";
 import { Button } from "../ui";
 import { useCategoryStore } from "@/store/category";
+import { Category, Product } from "@/generated/prisma/client";
 export interface CategoriesProps {
+  categories: (Category & { products: Product[] })[];
   className?: string;
 }
 
-export const Categories: React.FC<CategoriesProps> = ({ className }) => {
-  const categories: [number, string][] = [
-    [0, "Пицца"],
-    [1, "Роллы"],
-    [2, "Шаурма"],
-    [3, "Напитки"],
-    [4, "Просто поесть"],
-    [5, "Фри"],
-    [6, "Вок"],
-  ];
-
+export const Categories: React.FC<CategoriesProps> = ({
+  categories,
+  className,
+}) => {
   const activeId = useCategoryStore((state) => state.activeId);
 
   const handleScrollToCategory = (categoryId: string) => {
@@ -37,14 +32,14 @@ export const Categories: React.FC<CategoriesProps> = ({ className }) => {
       {categories.map((item) => {
         return (
           <Button
-            key={item[0]}
-            variant={activeId === item[1] ? "secondary" : "ghost"}
+            key={item.id}
+            variant={activeId === item.name ? "secondary" : "ghost"}
             onClick={() => {
-              handleScrollToCategory(item[1]);
+              handleScrollToCategory(item.name);
             }}
-            className={activeId === item[1] ? "" : "cursor-pointer"}
+            className={activeId === item.name ? "" : "cursor-pointer"}
           >
-            {item[1]}
+            {item.name}
           </Button>
         );
       })}

@@ -4,13 +4,18 @@ import { Title } from "./title";
 import { ProductCard } from "./product-card";
 import { useIntersection } from "react-use";
 import { useCategoryStore } from "@/store/category";
+import { Ingredient, Product, ProductOption } from "@/generated/prisma/client";
 export interface MenuCategoryProps {
   className?: string;
   title: string;
+  products: (Product & { ingredients: Ingredient[] } & {
+    options: ProductOption[];
+  })[];
 }
 
 export const MenuCategory: React.FC<MenuCategoryProps> = ({
   className,
+  products,
   title,
 }) => {
   const updateId = useCategoryStore((state) => state.updateId);
@@ -37,16 +42,9 @@ export const MenuCategory: React.FC<MenuCategoryProps> = ({
         className="mt-5 mb-20 grid grid-cols-3 gap-12.5"
         ref={intersectionRef}
       >
-        <ProductCard />
-        <ProductCard />
-        <ProductCard />
-        <ProductCard />
-        <ProductCard />
-        <ProductCard />
-        <ProductCard />
-        <ProductCard />
-        <ProductCard />
-        <ProductCard />
+        {products.map((item) => {
+          return <ProductCard data={item} key={item.id} />;
+        })}
       </div>
     </div>
   );

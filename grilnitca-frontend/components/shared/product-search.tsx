@@ -28,18 +28,18 @@ export const ProductSearch: React.FC<ProductSearchProps> = ({ className }) => {
       const products = await searchProducts(searchValue);
       setProducts(products);
     },
-    200,
+    100,
     [searchValue]
   );
 
   return (
     <>
       {focused && (
-        <div className="bg-black/60 fixed top-0 bottom-0 left-0 right-0 z-20"></div>
+        <div className="bg-black/60 fixed top-0 bottom-0 left-0 right-0 z-60"></div>
       )}
       <div
         className={clsx(
-          "w-full bg-gray-100 rounded-md flex gap-2 items-center relative z-30",
+          "w-full bg-gray-100 rounded-md flex gap-2 items-center relative z-70",
           className
         )}
         ref={inputRef}
