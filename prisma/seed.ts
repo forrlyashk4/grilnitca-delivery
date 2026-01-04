@@ -1,4 +1,9 @@
-import { INGREDIENTS_LIST, CATEGORIES_LIST, PRODUCTS_LIST } from "./const";
+import {
+  INGREDIENTS_LIST,
+  CATEGORIES_LIST,
+  PRODUCTS_LIST,
+  ROSTER_ITEMS,
+} from "./const";
 import { prisma } from "../shared/lib/prisma";
 import { Prisma } from "../generated/prisma/browser";
 import { hashSync } from "bcrypt";
@@ -6,6 +11,10 @@ import { hashSync } from "bcrypt";
 const randomNumber = (min: number, max: number) => {
   return Math.floor(Math.random() * (max - min) * 10 + min * 10) / 10;
 };
+
+function randomIndex(arrLength: number) {
+  return Math.floor(Math.random() * arrLength);
+}
 
 function generateOption({
   productId,
@@ -52,11 +61,16 @@ async function up() {
     data: INGREDIENTS_LIST,
   });
 
+  await prisma.rosterItem.createMany({
+    data: ROSTER_ITEMS,
+  });
+
   await prisma.category.createMany({
     data: CATEGORIES_LIST,
   });
 
   for (let i = 0; i < PRODUCTS_LIST.length; i++) {
+    const roster_index = randomIndex(ROSTER_ITEMS.length - 1);
     const data = {
       ...PRODUCTS_LIST[i],
       ingredients:
@@ -69,6 +83,12 @@ async function up() {
               connect: INGREDIENTS_LIST.slice(2, 6),
             }
           : undefined,
+      roster: {
+        connect: ROSTER_ITEMS.slice(
+          roster_index - 5 < 0 ? 0 : roster_index - 5,
+          roster_index
+        ),
+      },
     };
 
     await prisma.product.create({

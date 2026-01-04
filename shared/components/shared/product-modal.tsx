@@ -146,8 +146,13 @@ export const ProductModal: React.FC<ProductModalProps> = ({ product }) => {
             <Title size="xl">{product.name}</Title>
 
             <p className="text-gray-500 text-lg max-w-75 mb-3">
-              Состав: тесто, хрючево, майонез, жир и холестерин. Размер 30 см,
-              520 г.
+              Состав:{" "}
+              {product.roster.reduce(
+                (str, item, index) =>
+                  str + (index != 0 ? ", " : "") + item.name,
+                ""
+              )}
+              .
             </p>
 
             {size !== 0 && (

@@ -16,6 +16,7 @@ export default async function ProductPage({
     include: {
       ingredients: true,
       options: true,
+      roster: true,
     },
   });
 
