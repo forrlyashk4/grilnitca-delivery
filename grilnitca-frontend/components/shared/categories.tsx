@@ -3,9 +3,8 @@ import clsx from "clsx";
 import React from "react";
 import { Button } from "../ui";
 import { useCategoryStore } from "@/store/category";
-import { Category, Product } from "@/generated/prisma/client";
 export interface CategoriesProps {
-  categories: (Category & { products: Product[] })[];
+  categories: { name: string; id: number }[];
   className?: string;
 }
 

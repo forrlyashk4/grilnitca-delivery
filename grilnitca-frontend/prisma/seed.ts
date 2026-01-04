@@ -11,7 +11,7 @@ function generateOption({
   productId,
   price,
   size = 0,
-  type = 1,
+  type = 0,
 }: {
   productId: number;
   price: number;
@@ -81,9 +81,15 @@ async function up() {
     data: PRODUCTS_LIST.slice(0, 5)
       .map((item) => {
         return [
-          generateOption({ productId: item.id, price: 300, size: 1 }),
-          generateOption({ productId: item.id, price: 375, size: 2 }),
-          generateOption({ productId: item.id, price: 400, size: 3 }),
+          generateOption({ productId: item.id, price: 300, size: 1, type: 1 }),
+          generateOption({ productId: item.id, price: 300, size: 1, type: 2 }),
+          generateOption({ productId: item.id, price: 300, size: 1, type: 3 }),
+          generateOption({ productId: item.id, price: 375, size: 2, type: 1 }),
+          generateOption({ productId: item.id, price: 375, size: 2, type: 2 }),
+          generateOption({ productId: item.id, price: 375, size: 2, type: 3 }),
+          generateOption({ productId: item.id, price: 400, size: 3, type: 1 }),
+          generateOption({ productId: item.id, price: 400, size: 3, type: 2 }),
+          generateOption({ productId: item.id, price: 400, size: 3, type: 3 }),
         ];
       })
       .flat(1),

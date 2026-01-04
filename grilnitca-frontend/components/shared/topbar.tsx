@@ -3,11 +3,10 @@ import { Container } from "./container";
 import clsx from "clsx";
 import { SortPopup } from "./sort-popup";
 import { Categories } from "./categories";
-import { Category, Product } from "@/generated/prisma/client";
 
 export interface TopBarProps {
   className?: string;
-  categories: (Category & { products: Product[] })[];
+  categories: { name: string; id: number }[];
 }
 
 export const TopBar: React.FC<TopBarProps> = ({ categories, className }) => {

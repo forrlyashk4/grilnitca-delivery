@@ -14,7 +14,7 @@ export const Filters: React.FC<FiltersProps> = ({ className }) => {
     useFilters();
   return (
     <div className={className}>
-      <Title size="m">Цена от и до:</Title>
+      <Title size="m">Цена:</Title>
       <div className="flex justify-between gap-3 mt-1.5 mb-4">
         <Input
           type="number"

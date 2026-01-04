@@ -33,7 +33,7 @@ export const SortPopup: React.FC<SortPopupProps> = ({ className }) => {
         Сортировка:
         <span className="text-primary">{activeSorting}</span>
       </PopoverTrigger>
-      <PopoverContent className="width-60 border-none">
+      <PopoverContent className="width-60 border-none z-10">
         <ul>
           {sortItems.map((item) => {
             return (

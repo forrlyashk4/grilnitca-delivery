@@ -35,11 +35,11 @@ export const ProductSearch: React.FC<ProductSearchProps> = ({ className }) => {
   return (
     <>
       {focused && (
-        <div className="bg-black/60 fixed top-0 bottom-0 left-0 right-0 z-60"></div>
+        <div className="bg-black/60 fixed top-0 bottom-0 left-0 right-0 z-15"></div>
       )}
       <div
         className={clsx(
-          "w-full bg-gray-100 rounded-md flex gap-2 items-center relative z-70",
+          "w-full bg-gray-100 rounded-md flex gap-2 items-center relative z-15",
           className
         )}
         ref={inputRef}

@@ -4,13 +4,11 @@ import { Title } from "./title";
 import { ProductCard } from "./product-card";
 import { useIntersection } from "react-use";
 import { useCategoryStore } from "@/store/category";
-import { Ingredient, Product, ProductOption } from "@/generated/prisma/client";
+import { ProductWithRelations } from "@/@types/prisma";
 export interface MenuCategoryProps {
   className?: string;
   title: string;
-  products: (Product & { ingredients: Ingredient[] } & {
-    options: ProductOption[];
-  })[];
+  products: ProductWithRelations[];
 }
 
 export const MenuCategory: React.FC<MenuCategoryProps> = ({
