@@ -2,31 +2,34 @@
 import React, { useState } from "react";
 import { Title } from "./title";
 import { Button, Checkbox, Input, Skeleton } from "../ui";
-import { useIngredients } from "@/shared/hooks";
+import { Ingredient, RosterItem } from "@/generated/prisma/client";
 
 export interface FiltersGroupProps {
   selectedIngredients: Set<string>;
   toggleIngredients: (key: string) => void;
-  className?: string;
+  itemsList: Ingredient[] | RosterItem[];
+  isLoading: boolean;
+  label: string;
 }
 
 export const FiltersGroup: React.FC<FiltersGroupProps> = ({
   selectedIngredients,
   toggleIngredients,
-  className,
+  itemsList,
+  isLoading,
+  label,
 }) => {
-  const { ingredients, isLoading } = useIngredients();
   const [isShowAll, setShowAll] = useState(false);
   const itemsToShow = 4;
 
   const [searchStr, setSearchStr] = useState("");
-  const filteredIngredients = ingredients.filter((item) =>
+  const filteredIngredients = itemsList.filter((item) =>
     item.name.toLowerCase().startsWith(searchStr)
   );
 
   return (
-    <div className={className}>
-      <Title size="m">Можно добавить:</Title>
+    <div className="mt-6">
+      <Title size="m">{label}:</Title>
       {isLoading ? (
         <div className="mt-2">
           {...Array(itemsToShow)
@@ -50,7 +53,7 @@ export const FiltersGroup: React.FC<FiltersGroupProps> = ({
               if (isShowAll || index < itemsToShow) {
                 return (
                   <div
-                    key={item.id}
+                    key={item.name}
                     className="flex gap-1.5 items-center mt-2 cursor-pointer"
                   >
                     <Checkbox
@@ -60,7 +63,7 @@ export const FiltersGroup: React.FC<FiltersGroupProps> = ({
                       onCheckedChange={() => toggleIngredients(item.name)}
                     />
                     <label
-                      className="leading-[initial] cursor-pointer"
+                      className="leading-[initial] cursor-pointer capitalize"
                       htmlFor={`ing-${item.name}`}
                     >
                       {item.name}
@@ -70,7 +73,7 @@ export const FiltersGroup: React.FC<FiltersGroupProps> = ({
               }
             })}
           </div>
-          {ingredients.length > itemsToShow && !isShowAll && (
+          {itemsList.length > itemsToShow && !isShowAll && (
             <Button
               variant="link"
               className="cursor-pointer pl-0.5"

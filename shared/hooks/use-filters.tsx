@@ -16,6 +16,10 @@ export const useFilters = () => {
     new Set<string>(searchParams.get("ingredients")?.split(","))
   );
 
+  const [selectedRoster, { toggle: toggleRoster }] = useSet(
+    new Set<string>(searchParams.get("roster")?.split(","))
+  );
+
   const [priceRange, setPriceRange] = React.useState<PriceProps>({
     priceFrom: Number(searchParams.get("priceFrom")?.split(",")) || undefined,
     priceTo: Number(searchParams.get("priceTo")?.split(",")) || undefined,
@@ -31,6 +35,7 @@ export const useFilters = () => {
   React.useEffect(() => {
     const params = {
       ingredients: Array.from(selectedIngredients),
+      roster: Array.from(selectedRoster),
       priceFrom: priceRange.priceFrom || undefined,
       priceTo: priceRange.priceTo || undefined,
     };
@@ -38,10 +43,23 @@ export const useFilters = () => {
     const query = qs.stringify(params, { arrayFormat: "comma" });
 
     router.push(`?${query}`, { scroll: false });
-  }, [selectedIngredients, priceRange, router]);
+  }, [selectedIngredients, selectedRoster, priceRange, router]);
 
   return React.useMemo(
-    () => ({ selectedIngredients, toggleIngredients, priceRange, updatePrice }),
-    [selectedIngredients, toggleIngredients, priceRange]
+    () => ({
+      selectedIngredients,
+      toggleIngredients,
+      selectedRoster,
+      toggleRoster,
+      priceRange,
+      updatePrice,
+    }),
+    [
+      selectedIngredients,
+      toggleIngredients,
+      selectedRoster,
+      toggleRoster,
+      priceRange,
+    ]
   );
 };
