@@ -1,6 +1,15 @@
 export { Checkbox } from "./checkbox";
 export { Dialog } from "./dialog";
-export { Drawer } from "./drawer";
+export {
+  Sheet,
+  SheetClose,
+  SheetContent,
+  SheetDescription,
+  SheetFooter,
+  SheetHeader,
+  SheetTitle,
+  SheetTrigger,
+} from "./sheet";
 export { DropdownMenu } from "./dropdown-menu";
 export { Button } from "./button";
 export { Input } from "./input";

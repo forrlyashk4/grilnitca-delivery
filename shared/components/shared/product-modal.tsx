@@ -183,7 +183,7 @@ export const ProductModal: React.FC<ProductModalProps> = ({ product }) => {
                       <div
                         key={item.id}
                         className={`flex flex-col gap-2 p-2 rounded-xl w-25 text-center mt-2 mb-0.5 cursor-pointer border border-gray-100 transition-all hover:mt-1 hover:mb-1.5 ${
-                          selectedIng.indexOf(item.id) !== -1 && "bg-green-50"
+                          selectedIng.indexOf(item.id) !== -1 && "bg-red-50"
                         }`}
                         onClick={() => onChangeIngList(item.id)}
                       >
