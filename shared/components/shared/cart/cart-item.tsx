@@ -14,6 +14,7 @@ export interface CartItemProps {
     details: string[];
     quantity: number;
     price: number;
+    disabled: boolean;
     onClickQuantityButton: (type: "plus" | "minus") => void;
     onClickRemove: () => void;
   };
@@ -21,7 +22,15 @@ export interface CartItemProps {
 
 export const CartItem: React.FC<CartItemProps> = ({ className, cartItem }) => {
   return (
-    <div className={cn("flex gap-2 items-start bg-white px-4 py-2", className)}>
+    <div
+      className={cn(
+        "flex gap-2 items-start bg-white px-4 py-2",
+        {
+          "opacity-50 pointer-events-none": cartItem.disabled,
+        },
+        className
+      )}
+    >
       <Image
         src={cartItem.imageUrl}
         alt={cartItem.name}

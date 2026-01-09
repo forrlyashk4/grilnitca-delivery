@@ -20,7 +20,9 @@ export interface CartDrawerProps {
 export const CartDrawer: React.FC<CartDrawerProps> = ({ children }) => {
   return (
     <Sheet>
-      <SheetTrigger>{children}</SheetTrigger>
+      <SheetTrigger className="group relative cursor-pointer flex bg-primary text-white rounded-md py-2 px-4 w-max h-full items-center">
+        {children}
+      </SheetTrigger>
 
       <SheetContent className="bg-[#F4F1EE]">
         <SheetHeader>
@@ -39,6 +41,7 @@ export const CartDrawer: React.FC<CartDrawerProps> = ({ children }) => {
               details: ["Большая, сырная", "+ маринованные огурчики"],
               quantity: 4,
               price: 369,
+              disabled: false,
               onClickQuantityButton: (type) => {
                 console.log(type);
               },
@@ -54,6 +57,7 @@ export const CartDrawer: React.FC<CartDrawerProps> = ({ children }) => {
               details: ["Большая, сырная", "+ маринованные огурчики"],
               quantity: 1,
               price: 369,
+              disabled: true,
               onClickQuantityButton: (type) => {
                 console.log(type);
               },
@@ -64,7 +68,7 @@ export const CartDrawer: React.FC<CartDrawerProps> = ({ children }) => {
 
         <SheetFooter className="bg-white">
           <p>
-            Итого: <span className="font-bold">560 руб.</span>
+            Итого: <span className="font-bold">520 руб.</span>
           </p>
           <Button className="cursor-pointer">Оформить заказ</Button>
         </SheetFooter>
