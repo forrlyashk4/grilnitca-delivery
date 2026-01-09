@@ -1,4 +1,4 @@
-export const sizeLables = {
+export const sizeLables: Record<number, string> = {
   1: "Маленькая",
   2: "Средняя",
   3: "Большая",

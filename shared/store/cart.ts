@@ -10,6 +10,7 @@ interface CartStateItem {
   type: number;
   quantity: number;
   price: number;
+  categoryId: number;
   disabled: boolean;
   ingredients: Array<{ name: string; price: number }>;
 }
@@ -41,6 +42,7 @@ function normalizeCartData(data: CartDTO): {
       id: cartItem.id,
       name: cartItem.item.products.name,
       imageUrl: cartItem.item.products.imageUrl,
+      categoryId: cartItem.item.products.categoryId,
       size: cartItem.item.size,
       type: cartItem.item.type,
       quantity: cartItem.quantity,
@@ -71,6 +73,7 @@ export const useCartStore = create<CartState>()((set) => ({
     try {
       set({ loading: true, error: false });
       const data = await cartSearch();
+      console.log(data);
       set(normalizeCartData(data));
     } catch (err) {
       console.log(err);
