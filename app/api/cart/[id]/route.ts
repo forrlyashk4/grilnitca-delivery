@@ -37,3 +37,35 @@ export async function PATCH(
 
   return NextResponse.json(cart);
 }
+
+export async function DELETE(
+  req: NextRequest,
+  { params }: { params: { id: string } }
+) {
+  const token = req.cookies.get("cartToken")?.value;
+  const { id: cartItemID } = await params;
+
+  if (!token) {
+    return NextResponse.json({ error: "Cart token not found" });
+  }
+
+  const cartItem = await prisma.cartItem.findFirst({
+    where: {
+      id: Number(cartItemID),
+    },
+  });
+
+  if (!cartItem) {
+    return NextResponse.json({ error: "Cart item not found" });
+  }
+
+  await prisma.cartItem.delete({
+    where: {
+      id: Number(cartItemID),
+    },
+  });
+
+  const cart = await updateCartData(token);
+
+  return NextResponse.json(cart);
+}

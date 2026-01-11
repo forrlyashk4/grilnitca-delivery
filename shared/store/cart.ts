@@ -1,5 +1,10 @@
 import { create } from "zustand";
-import { cartItemAdd, cartItemUpdate, cartSearch } from "../services";
+import {
+  cartItemAdd,
+  cartItemDelete,
+  cartItemUpdate,
+  cartSearch,
+} from "../services";
 import { CartDTO } from "../services/dto/cart.dto";
 import { calcCartItemPrice } from "../lib/calc-item-price";
 
@@ -28,6 +33,7 @@ interface CartState {
     nextQuantity: number
   ) => Promise<void>;
   addCartItem: (variationId: number, ingredients: number[]) => Promise<void>;
+  deleteCartItem: (cartItemID: number) => Promise<void>;
 }
 
 function normalizeCartData(data: CartDTO): {
@@ -96,6 +102,25 @@ export const useCartStore = create<CartState>()((set) => ({
     try {
       set({ loading: true, error: false });
       const data = await cartItemAdd(variationId, ingredients);
+      set(normalizeCartData(data));
+    } catch (err) {
+      console.log(err);
+      set({ error: true });
+    } finally {
+      set({ loading: false });
+    }
+  },
+
+  deleteCartItem: async (cartItemID: number) => {
+    try {
+      set((state) => ({
+        loading: true,
+        error: false,
+        items: state.items.map((item) =>
+          item.id === cartItemID ? { ...item, disabled: true } : item
+        ),
+      }));
+      const data = await cartItemDelete(cartItemID);
       set(normalizeCartData(data));
     } catch (err) {
       console.log(err);

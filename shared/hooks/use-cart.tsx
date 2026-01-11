@@ -10,6 +10,7 @@ export function useCart(runFetch?: boolean) {
     fetchCartItems,
     updateCartItemQuantity,
     addCartItem,
+    deleteCartItem,
   } = useCartStore();
 
   useEffect(() => {
@@ -24,5 +25,6 @@ export function useCart(runFetch?: boolean) {
 
     updateCartItemQuantity,
     addCartItem,
+    deleteCartItem,
   };
 }

@@ -20,7 +20,7 @@ export interface CartItemProps {
       quantity: number,
       itemId: number
     ) => void;
-    onClickRemove: () => void;
+    onClickRemove: (cartItemID: number) => Promise<void>;
   };
 }
 
@@ -28,10 +28,9 @@ export const CartItem: React.FC<CartItemProps> = ({ className, cartItem }) => {
   return (
     <div
       className={cn(
-        "flex gap-2 items-start bg-white px-4 py-2",
-        {
-          "opacity-50 pointer-events-none": cartItem.disabled,
-        },
+        `flex gap-2 items-start bg-white px-4 py-2 ${
+          cartItem.disabled === true ? "opacity-50 pointer-events-none" : ""
+        }`,
         className
       )}
     >
@@ -87,7 +86,7 @@ export const CartItem: React.FC<CartItemProps> = ({ className, cartItem }) => {
               color="gray"
               className="cursor-pointer"
               onClick={() => {
-                cartItem.onClickRemove();
+                cartItem.onClickRemove(cartItem.id);
               }}
             />
           </div>

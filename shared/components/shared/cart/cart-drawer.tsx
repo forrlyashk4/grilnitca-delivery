@@ -21,8 +21,14 @@ export interface CartDrawerProps {
 }
 
 export const CartDrawer: React.FC<CartDrawerProps> = ({ children }) => {
-  const { loading, error, items, amount, updateCartItemQuantity } =
-    useCart(true);
+  const {
+    loading,
+    error,
+    items,
+    amount,
+    updateCartItemQuantity,
+    deleteCartItem,
+  } = useCart(true);
 
   function onClickQuantityButton(
     type: "minus" | "plus",
@@ -76,9 +82,9 @@ export const CartDrawer: React.FC<CartDrawerProps> = ({ children }) => {
                   ],
                   quantity: item.quantity,
                   price: item.price,
-                  disabled: false,
+                  disabled: item.disabled,
                   onClickQuantityButton: onClickQuantityButton,
-                  onClickRemove: () => {},
+                  onClickRemove: deleteCartItem,
                 }}
               />
             );
