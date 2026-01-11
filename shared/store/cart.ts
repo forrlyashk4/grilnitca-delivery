@@ -1,6 +1,7 @@
 import { create } from "zustand";
-import { cartSearch } from "../services";
-import { CartDTO, CartItemDTO } from "../services/dto/cart.dto";
+import { cartItemAdd, cartItemUpdate, cartSearch } from "../services";
+import { CartDTO } from "../services/dto/cart.dto";
+import { calcCartItemPrice } from "../lib/calc-item-price";
 
 interface CartStateItem {
   id: number;
@@ -22,15 +23,11 @@ interface CartState {
   amount: number;
 
   fetchCartItems: () => Promise<void>;
-}
-
-function calcCartItemPrice(cartItem: CartItemDTO): number {
-  const ingredientsPrice = cartItem.ingredients.reduce(
-    (acc, item) => acc + item.price,
-    0
-  );
-
-  return (ingredientsPrice + cartItem.item.price) * cartItem.quantity;
+  updateCartItemQuantity: (
+    itemId: number,
+    nextQuantity: number
+  ) => Promise<void>;
+  addCartItem: (variationId: number, ingredients: number[]) => Promise<void>;
 }
 
 function normalizeCartData(data: CartDTO): {
@@ -73,7 +70,32 @@ export const useCartStore = create<CartState>()((set) => ({
     try {
       set({ loading: true, error: false });
       const data = await cartSearch();
-      console.log(data);
+      set(normalizeCartData(data));
+    } catch (err) {
+      console.log(err);
+      set({ error: true });
+    } finally {
+      set({ loading: false });
+    }
+  },
+
+  updateCartItemQuantity: async (itemId: number, nextQuantity: number) => {
+    try {
+      set({ loading: true, error: false });
+      const data = await cartItemUpdate(nextQuantity, itemId);
+      set(normalizeCartData(data));
+    } catch (err) {
+      console.log(err);
+      set({ error: true });
+    } finally {
+      set({ loading: false });
+    }
+  },
+
+  addCartItem: async (variationId: number, ingredients: number[]) => {
+    try {
+      set({ loading: true, error: false });
+      const data = await cartItemAdd(variationId, ingredients);
       set(normalizeCartData(data));
     } catch (err) {
       console.log(err);

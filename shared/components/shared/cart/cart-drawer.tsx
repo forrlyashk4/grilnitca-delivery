@@ -14,13 +14,29 @@ import React, { ReactNode } from "react";
 import { CartItem } from "./cart-item";
 import { useCart } from "@/shared/hooks";
 import { sizeLables, typesLables } from "@/shared/lib/consts";
+import { LoaderCircle } from "lucide-react";
 
 export interface CartDrawerProps {
   children: ReactNode;
 }
 
 export const CartDrawer: React.FC<CartDrawerProps> = ({ children }) => {
-  const { loading, error, items, amount } = useCart(true);
+  const { loading, error, items, amount, updateCartItemQuantity } =
+    useCart(true);
+
+  function onClickQuantityButton(
+    type: "minus" | "plus",
+    quantity: number,
+    itemId: number
+  ) {
+    if (type === "plus") {
+      const nextQuantity = quantity + 1;
+      updateCartItemQuantity(itemId, nextQuantity);
+    } else if (quantity > 1) {
+      const nextQuantity = quantity - 1;
+      updateCartItemQuantity(itemId, nextQuantity);
+    }
+  }
 
   return (
     <Sheet>
@@ -35,6 +51,10 @@ export const CartDrawer: React.FC<CartDrawerProps> = ({ children }) => {
           </SheetTitle>
           <SheetDescription>Это будет очень вкусно!</SheetDescription>
         </SheetHeader>
+
+        {loading && items.length === 0 && (
+          <LoaderCircle className="spin m-auto animate-spin" />
+        )}
 
         <div className="flex flex-col gap-4 overflow-y-auto">
           {items.map((item) => {
@@ -57,9 +77,7 @@ export const CartDrawer: React.FC<CartDrawerProps> = ({ children }) => {
                   quantity: item.quantity,
                   price: item.price,
                   disabled: false,
-                  onClickQuantityButton: (type) => {
-                    console.log(type);
-                  },
+                  onClickQuantityButton: onClickQuantityButton,
                   onClickRemove: () => {},
                 }}
               />

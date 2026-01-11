@@ -15,7 +15,11 @@ export interface CartItemProps {
     quantity: number;
     price: number;
     disabled: boolean;
-    onClickQuantityButton: (type: "plus" | "minus") => void;
+    onClickQuantityButton: (
+      type: "minus" | "plus",
+      quantity: number,
+      itemId: number
+    ) => void;
     onClickRemove: () => void;
   };
 }
@@ -45,7 +49,11 @@ export const CartItem: React.FC<CartItemProps> = ({ className, cartItem }) => {
           <div className="flex items-center gap-2">
             <Button
               onClick={() => {
-                cartItem.onClickQuantityButton("minus");
+                cartItem.onClickQuantityButton(
+                  "minus",
+                  cartItem.quantity,
+                  cartItem.id
+                );
               }}
               disabled={cartItem.quantity === 1 ? true : false}
               className={cn(
@@ -59,7 +67,11 @@ export const CartItem: React.FC<CartItemProps> = ({ className, cartItem }) => {
             <div className="text-lg">{cartItem.quantity}</div>
             <Button
               onClick={() => {
-                cartItem.onClickQuantityButton("plus");
+                cartItem.onClickQuantityButton(
+                  "plus",
+                  cartItem.quantity,
+                  cartItem.id
+                );
               }}
               className="px-2! py-0.5! h-auto! rounded-sm border border-primary text-primary font-bold cursor-pointer"
               variant="outline"

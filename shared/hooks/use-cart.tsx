@@ -2,7 +2,15 @@ import { useEffect } from "react";
 import { useCartStore } from "../store/cart";
 
 export function useCart(runFetch?: boolean) {
-  const { items, loading, error, amount, fetchCartItems } = useCartStore();
+  const {
+    items,
+    loading,
+    error,
+    amount,
+    fetchCartItems,
+    updateCartItemQuantity,
+    addCartItem,
+  } = useCartStore();
 
   useEffect(() => {
     if (runFetch) fetchCartItems();
@@ -13,5 +21,8 @@ export function useCart(runFetch?: boolean) {
     loading,
     error,
     amount,
+
+    updateCartItemQuantity,
+    addCartItem,
   };
 }

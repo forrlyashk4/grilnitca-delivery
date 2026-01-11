@@ -1,6 +1,6 @@
 "use client";
 import { ProductWithRelations } from "@/shared/types/prisma";
-import React from "react";
+import React, { useState } from "react";
 import { Dialog, DialogContent, DialogTitle } from "../ui/dialog";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
@@ -9,6 +9,7 @@ import { Button } from "../ui";
 import { VisuallyHidden } from "@radix-ui/react-visually-hidden";
 import { ProductChooser } from "./product-chooser";
 import { sizeLables, typesLables } from "@/shared/lib/consts";
+import { useCart } from "@/shared/hooks";
 
 export interface ProductModalProps {
   product: ProductWithRelations;
@@ -16,9 +17,14 @@ export interface ProductModalProps {
 
 export const ProductModal: React.FC<ProductModalProps> = ({ product }) => {
   const router = useRouter();
+  const { addCartItem } = useCart();
 
   const defaultSize = product.options[0].size;
   const defaultType = product.options[0].type;
+
+  const [currentOption, setCurrentOption] = useState<number>(
+    product.options[0].id
+  );
 
   const [size, setSize] = React.useState(defaultSize);
 
@@ -84,6 +90,18 @@ export const ProductModal: React.FC<ProductModalProps> = ({ product }) => {
   const [totalPrice, setPrice] = React.useState(product.options[0].price);
 
   React.useEffect(() => {
+    const nextOption = product.options.find((item) => {
+      return item.size === size && item.type === type;
+    })?.id;
+
+    if (nextOption) setCurrentOption(nextOption);
+  }, [size, type, product.options]);
+
+  function onClickAddButton() {
+    addCartItem(currentOption, selectedIng);
+  }
+
+  React.useEffect(() => {
     const nextOption = product.options.find(
       (item) => item.size === size && item.type === type
     );
@@ -105,20 +123,6 @@ export const ProductModal: React.FC<ProductModalProps> = ({ product }) => {
 
     setPrice(nextPrice);
   }, [size, type, selectedIng, product.options, product.ingredients]);
-
-  function onClickButton() {
-    const option = product.options.find(
-      (item) => item.size === size && item.type === type
-    );
-    console.log(
-      "выбранная опция:",
-      option,
-      "допы:",
-      selectedIng,
-      "итого:",
-      totalPrice
-    );
-  }
 
   function onCloseModal() {
     router.back();
@@ -203,7 +207,7 @@ export const ProductModal: React.FC<ProductModalProps> = ({ product }) => {
               </>
             )}
 
-            <Button onClick={onClickButton} className="mt-10 cursor-pointer">
+            <Button onClick={onClickAddButton} className="mt-10 cursor-pointer">
               Добавить в корзину за {totalPrice}₽
             </Button>
           </div>
