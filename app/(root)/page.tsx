@@ -6,6 +6,7 @@ import {
   MenuCategory,
 } from "@/shared/components/shared";
 import { prisma } from "@/shared/lib/prisma";
+import { Suspense } from "react";
 
 export default async function Home() {
   const categories = await prisma.category.findMany({
@@ -29,7 +30,9 @@ export default async function Home() {
 
       <Container>
         <div className="flex items-start gap-15 mt-4">
-          <Filters className="w-61" />
+          <Suspense>
+            <Filters className="w-61" />
+          </Suspense>
           <div>
             {categories.map((item) => {
               return (

@@ -10,6 +10,7 @@ import { VisuallyHidden } from "@radix-ui/react-visually-hidden";
 import { ProductChooser } from "./product-chooser";
 import { sizeLables, typesLables } from "@/shared/lib/consts";
 import { useCart } from "@/shared/hooks";
+import toast from "react-hot-toast";
 
 export interface ProductModalProps {
   product: ProductWithRelations;
@@ -97,8 +98,13 @@ export const ProductModal: React.FC<ProductModalProps> = ({ product }) => {
     if (nextOption) setCurrentOption(nextOption);
   }, [size, type, product.options]);
 
-  function onClickAddButton() {
-    addCartItem(currentOption, selectedIng);
+  async function onClickAddButton() {
+    await toast.promise(addCartItem(currentOption, selectedIng), {
+      loading: "Добавляем вкусняшку...",
+      success: "Добавили!",
+      error: "Ошибка при добавлении",
+    });
+    router.back();
   }
 
   React.useEffect(() => {
