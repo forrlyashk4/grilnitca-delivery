@@ -5,20 +5,16 @@ import {
   Filters,
   MenuCategory,
 } from "@/shared/components/shared";
-import { prisma } from "@/shared/lib/prisma";
+import { findProducts } from "@/shared/lib/find-products";
 import { Suspense } from "react";
 
-export default async function Home() {
-  const categories = await prisma.category.findMany({
-    include: {
-      products: {
-        include: {
-          ingredients: true,
-          options: true,
-        },
-      },
-    },
-  });
+export default async function Home({
+  searchParams,
+}: {
+  searchParams: Promise<Record<string, string>>;
+}) {
+  const params = await searchParams;
+  const categories = await findProducts(params);
 
   return (
     <>
@@ -26,7 +22,11 @@ export default async function Home() {
         <Title size="xl">Наше меню</Title>
       </Container>
 
-      <TopBar categories={categories} />
+      <TopBar
+        categories={categories.filter(
+          (category) => category.products.length > 0
+        )}
+      />
 
       <Container>
         <div className="flex items-start gap-15 mt-4">
@@ -34,13 +34,15 @@ export default async function Home() {
             <Filters className="w-61" />
           </Suspense>
           <div>
-            {categories.map((item) => {
+            {categories.map((category) => {
               return (
-                <MenuCategory
-                  key={item.id}
-                  title={item.name}
-                  products={item.products}
-                />
+                category.products.length > 0 && (
+                  <MenuCategory
+                    key={category.id}
+                    title={category.name}
+                    products={category.products}
+                  />
+                )
               );
             })}
           </div>
