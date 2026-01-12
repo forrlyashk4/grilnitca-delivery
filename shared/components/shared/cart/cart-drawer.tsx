@@ -15,6 +15,8 @@ import { CartItem } from "./cart-item";
 import { useCart } from "@/shared/hooks";
 import { sizeLables, typesLables } from "@/shared/lib/consts";
 import { LoaderCircle } from "lucide-react";
+import Image from "next/image";
+import { Title } from "../title";
 
 export interface CartDrawerProps {
   children: ReactNode;
@@ -60,6 +62,21 @@ export const CartDrawer: React.FC<CartDrawerProps> = ({ children }) => {
 
         {loading && items.length === 0 && (
           <LoaderCircle className="spin m-auto animate-spin" />
+        )}
+
+        {!loading && items.length === 0 && (
+          <div className="m-auto text-center">
+            <Image
+              src="/empty-cart.png"
+              alt="Корзина пуста"
+              width={250}
+              height={250}
+            />
+            <Title size="m" className="mt-8">
+              В корзине пусто
+            </Title>
+            <p>добавьте свою любимую вкусняшку!</p>
+          </div>
         )}
 
         <div className="flex flex-col gap-4 overflow-y-auto">

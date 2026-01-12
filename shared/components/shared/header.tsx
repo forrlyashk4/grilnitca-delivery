@@ -1,3 +1,5 @@
+"use client";
+
 import React from "react";
 import Image from "next/image";
 import clsx from "clsx";
@@ -7,12 +9,15 @@ import { User } from "lucide-react";
 import { ProductSearch } from ".";
 import Link from "next/link";
 import { CartButton } from "./cart/cart-button";
+import { useCart } from "@/shared/hooks";
 
 export interface HeaderProps {
   className?: string;
 }
 
 export const Header: React.FC<HeaderProps> = ({ className }) => {
+  const { items, amount } = useCart(true);
+
   return (
     <header className={clsx("border border-b", className)}>
       <Container className="flex items-center justify-between py-8 gap-8">
@@ -44,7 +49,10 @@ export const Header: React.FC<HeaderProps> = ({ className }) => {
             <span className="leading-[initial]">Войти</span>
           </Button>
           <div>
-            <CartButton />
+            <CartButton
+              amount={`${amount || "0"}`}
+              count={`${items.length || "0"}`}
+            />
           </div>
         </div>
       </Container>
