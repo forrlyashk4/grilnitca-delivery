@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import {
   Sheet,
   SheetTrigger,
@@ -15,7 +16,6 @@ import { CartItem } from "./cart-item";
 import { useCart } from "@/shared/hooks";
 import { sizeLables, typesLables } from "@/shared/lib/consts";
 import { LoaderCircle } from "lucide-react";
-import Image from "next/image";
 import { Title } from "../title";
 
 export interface CartDrawerProps {
@@ -23,14 +23,8 @@ export interface CartDrawerProps {
 }
 
 export const CartDrawer: React.FC<CartDrawerProps> = ({ children }) => {
-  const {
-    loading,
-    error,
-    items,
-    amount,
-    updateCartItemQuantity,
-    deleteCartItem,
-  } = useCart(true);
+  const { loading, items, amount, updateCartItemQuantity, deleteCartItem } =
+    useCart(true);
 
   function onClickQuantityButton(
     type: "minus" | "plus",
@@ -112,7 +106,9 @@ export const CartDrawer: React.FC<CartDrawerProps> = ({ children }) => {
           <p>
             Итого: <span className="font-bold">{amount} руб.</span>
           </p>
-          <Button className="cursor-pointer">Оформить заказ</Button>
+          <Button loading={loading} className="cursor-pointer">
+            Оформить заказ
+          </Button>
         </SheetFooter>
       </SheetContent>
     </Sheet>

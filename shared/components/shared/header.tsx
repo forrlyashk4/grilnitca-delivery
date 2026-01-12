@@ -43,9 +43,7 @@ export const Header: React.FC<HeaderProps> = ({ className }) => {
             <User size={16} />
             <span className="leading-[initial]">Войти</span>
           </Button>
-          <div>
-            <CartButton />
-          </div>
+          <CartButton />
         </div>
       </Container>
     </header>

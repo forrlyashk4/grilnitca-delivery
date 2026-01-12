@@ -15,7 +15,7 @@ export function useCart(runFetch?: boolean) {
 
   useEffect(() => {
     if (runFetch) fetchCartItems();
-  }, [runFetch, fetchCartItems]);
+  }, []);
 
   return {
     items,
