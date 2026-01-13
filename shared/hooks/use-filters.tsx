@@ -32,18 +32,27 @@ export const useFilters = () => {
     }));
   };
 
+  const initSortIndex = searchParams.get("sortBy");
+
+  const [sortIndex, setSortIndex] = React.useState(
+    Number(initSortIndex) > 0 && Number(initSortIndex) < 5
+      ? Number(initSortIndex)
+      : 1
+  );
+
   React.useEffect(() => {
     const params = {
       ingredients: Array.from(selectedIngredients),
       roster: Array.from(selectedRoster),
       priceFrom: priceRange.priceFrom || undefined,
       priceTo: priceRange.priceTo || undefined,
+      sortBy: sortIndex,
     };
 
     const query = qs.stringify(params, { arrayFormat: "comma" });
 
     router.push(`?${query}`, { scroll: false });
-  }, [selectedIngredients, selectedRoster, priceRange, router]);
+  }, [selectedIngredients, selectedRoster, priceRange, router, sortIndex]);
 
   return React.useMemo(
     () => ({
@@ -53,6 +62,8 @@ export const useFilters = () => {
       toggleRoster,
       priceRange,
       updatePrice,
+      sortIndex,
+      setSortIndex,
     }),
     [
       selectedIngredients,
@@ -60,6 +71,7 @@ export const useFilters = () => {
       selectedRoster,
       toggleRoster,
       priceRange,
+      sortIndex,
     ]
   );
 };

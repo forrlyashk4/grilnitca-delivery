@@ -3,22 +3,32 @@ import React, { useState } from "react";
 import { Popover, PopoverContent, PopoverTrigger } from "../ui";
 import { ArrowUpDown } from "lucide-react";
 import clsx from "clsx";
+import { useFilters } from "@/shared/hooks";
 
 export interface SortPopupProps {
   className?: string;
 }
 
+const sortItems: Record<number, string> = {
+  1: "сначала с лучшей оценкой",
+  2: "сначала недорогие",
+  3: "сначала дорогие",
+  4: "сначала популярное",
+};
+
 export const SortPopup: React.FC<SortPopupProps> = ({ className }) => {
+  const { sortIndex, setSortIndex } = useFilters();
   const [openPopup, setOpenPopup] = useState(false);
 
-  const sortItems: [number, string][] = [
-    [1, "сначала с лучшей оценкой"],
-    [2, "сначала недорогие"],
-    [3, "сначала дорогие"],
-    [4, "сначала популярное"],
-  ];
+  const [activeSorting, setActiveSorting] = useState(sortItems[sortIndex]);
 
-  const [activeSorting, setActiveSorting] = useState(sortItems[0][1]);
+  React.useEffect(() => {
+    if (sortItems[sortIndex]) {
+      setActiveSorting(sortItems[sortIndex]);
+    } else {
+      setActiveSorting(sortItems[1]);
+    }
+  }, [sortIndex]);
 
   return (
     <Popover open={openPopup}>
@@ -35,12 +45,12 @@ export const SortPopup: React.FC<SortPopupProps> = ({ className }) => {
       </PopoverTrigger>
       <PopoverContent className="width-60 border-none z-10">
         <ul>
-          {sortItems.map((item) => {
+          {Object.entries(sortItems).map((item) => {
             return (
               <li
                 key={item[0]}
                 onClick={() => {
-                  setActiveSorting(item[1]);
+                  setSortIndex(Number(item[0]));
                   setOpenPopup(false);
                 }}
                 className="hover:text-primary hover:bg-gray-50 py-2 px-4 cursor-pointer rounded-md transition-all"

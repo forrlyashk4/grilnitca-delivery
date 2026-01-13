@@ -1,4 +1,16 @@
+import { ProductOrderByWithRelationInput } from "@/generated/prisma/models";
 import { prisma } from "./prisma";
+
+function getSortMethod(
+  sortIndex: number
+):
+  | ProductOrderByWithRelationInput
+  | ProductOrderByWithRelationInput[]
+  | undefined {
+  if (sortIndex === 1) return { id: "desc" };
+  if (sortIndex === 4) return { id: "asc" };
+  return undefined;
+}
 
 export async function findProducts(searchParams: Record<string, string>) {
   const roster = searchParams.roster
@@ -9,8 +21,9 @@ export async function findProducts(searchParams: Record<string, string>) {
     : undefined;
   const priceFrom = searchParams.priceFrom || undefined;
   const priceTo = searchParams.priceTo || undefined;
+  const sortIndex = Number(searchParams.sortBy) || 1;
 
-  return await prisma.category.findMany({
+  let data = await prisma.category.findMany({
     include: {
       products: {
         include: {
@@ -21,9 +34,7 @@ export async function findProducts(searchParams: Record<string, string>) {
             },
           },
         },
-        orderBy: {
-          id: "desc",
-        },
+        orderBy: getSortMethod(sortIndex),
         where: {
           ingredients:
             ingredients !== undefined
@@ -57,4 +68,34 @@ export async function findProducts(searchParams: Record<string, string>) {
       },
     },
   });
+
+  if (sortIndex === 2) {
+    data = data.map((category) => {
+      return {
+        ...category,
+        products: category.products.sort((a, b) => {
+          const aMin = Math.min(...a.options.map((option) => option.price));
+          const bMin = Math.min(...b.options.map((option) => option.price));
+
+          return aMin - bMin;
+        }),
+      };
+    });
+  }
+
+  if (sortIndex === 3) {
+    data = data.map((category) => {
+      return {
+        ...category,
+        products: category.products.sort((a, b) => {
+          const aMax = Math.max(...a.options.map((option) => option.price));
+          const bMax = Math.max(...b.options.map((option) => option.price));
+
+          return bMax - aMax;
+        }),
+      };
+    });
+  }
+
+  return data;
 }
