@@ -20,9 +20,13 @@ import { Title } from "../title";
 
 export interface CartDrawerProps {
   children: ReactNode;
+  className?: string;
 }
 
-export const CartDrawer: React.FC<CartDrawerProps> = ({ children }) => {
+export const CartDrawer: React.FC<CartDrawerProps> = ({
+  children,
+  className,
+}) => {
   const { loading, items, amount, updateCartItemQuantity, deleteCartItem } =
     useCart(true);
 
@@ -42,7 +46,9 @@ export const CartDrawer: React.FC<CartDrawerProps> = ({ children }) => {
 
   return (
     <Sheet>
-      <SheetTrigger className="group relative cursor-pointer flex bg-primary text-white rounded-md py-2 px-4 w-max h-full items-center">
+      <SheetTrigger
+        className={`group relative cursor-pointer flex bg-primary text-white rounded-md py-2 px-4 w-max h-full items-center ${className}`}
+      >
         {children}
       </SheetTrigger>
 

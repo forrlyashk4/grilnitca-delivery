@@ -1,27 +1,20 @@
 "use client";
 import { ProductWithRelations } from "@/shared/types/prisma";
 import React, { useState } from "react";
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogTitle,
-} from "../ui/dialog";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
 import { Title } from "./title";
 import { Button } from "../ui";
-import { VisuallyHidden } from "@radix-ui/react-visually-hidden";
 import { ProductChooser } from "./product-chooser";
 import { sizeLables, typesLables } from "@/shared/lib/consts";
 import { useCart } from "@/shared/hooks";
 import toast from "react-hot-toast";
 
-export interface ProductModalProps {
+export interface ProductInfoProps {
   product: ProductWithRelations;
 }
 
-export const ProductModal: React.FC<ProductModalProps> = ({ product }) => {
+export const ProductInfo: React.FC<ProductInfoProps> = ({ product }) => {
   const router = useRouter();
   const { addCartItem } = useCart();
 
@@ -109,7 +102,6 @@ export const ProductModal: React.FC<ProductModalProps> = ({ product }) => {
       success: "Добавили!",
       error: "Ошибка при добавлении",
     });
-    router.back();
   }
 
   React.useEffect(() => {
@@ -135,98 +127,82 @@ export const ProductModal: React.FC<ProductModalProps> = ({ product }) => {
     setPrice(nextPrice);
   }, [size, type, selectedIng, product.options, product.ingredients]);
 
-  function onCloseModal() {
-    router.back();
-  }
-
   return (
-    <Dialog open={Boolean(product)} onOpenChange={onCloseModal}>
-      <DialogContent
-        className="w-auto max-w-231"
-        onOpenAutoFocus={(e) => {
-          e.preventDefault();
-        }}
-      >
-        <VisuallyHidden asChild>
-          <DialogTitle>{product.name}</DialogTitle>
-        </VisuallyHidden>
-        <VisuallyHidden asChild>
-          <DialogDescription>{product.roster.join(", ")}</DialogDescription>
-        </VisuallyHidden>
-        <div className="flex gap-8 items-center">
-          <Image
-            width={452}
-            height={452}
-            src={product.imageUrl}
-            alt={product.name}
+    <div className="flex gap-12 items-center justify-center">
+      <Image
+        width={512}
+        height={512}
+        src={product.imageUrl}
+        alt={product.name}
+      />
+      <div className="py-4 max-w-100">
+        <Title size="2xl">{product.name}</Title>
+
+        <p className="text-gray-500 mt-3 text-lg max-w-100 mb-5">
+          Состав:{" "}
+          {product.roster.reduce(
+            (str, item, index) => str + (index != 0 ? ", " : "") + item.name,
+            ""
+          )}
+          .
+        </p>
+
+        {size !== 0 && (
+          <ProductChooser
+            options={sizesList}
+            optionState={size}
+            setOptionState={onSizeChange}
+            optionLabels={sizeLables}
           />
-          <div className="pr-10 py-4">
-            <Title size="xl">{product.name}</Title>
+        )}
+        {type !== 0 && (
+          <ProductChooser
+            options={typesList}
+            optionState={type}
+            setOptionState={onTypeChange}
+            optionLabels={typesLables[product.categoryId]}
+          />
+        )}
 
-            <p className="text-gray-500 text-lg max-w-75 mb-3">
-              Состав:{" "}
-              {product.roster.reduce(
-                (str, item, index) =>
-                  str + (index != 0 ? ", " : "") + item.name,
-                ""
-              )}
-              .
-            </p>
+        {product.ingredients.length > 0 && (
+          <>
+            <Title size="m" className="mt-5 mb-4">
+              Добавить по вкусу:
+            </Title>
+            <div className="flex flex-wrap gap-3">
+              {product.ingredients.map((item) => {
+                return (
+                  <div
+                    key={item.id}
+                    className={`flex flex-col gap-2 p-2 rounded-xl w-30 text-center mt-2 mb-0.5 cursor-pointer border border-gray-100 transition-all hover:mt-1 hover:mb-1.5 ${
+                      selectedIng.indexOf(item.id) !== -1 && "bg-red-50"
+                    }`}
+                    onClick={() => onChangeIngList(item.id)}
+                  >
+                    <Image
+                      width={50}
+                      height={50}
+                      src={item.imageUrl}
+                      alt={item.name}
+                      className="m-auto"
+                    />
+                    <p className="text-xs">{item.name}</p>
+                    <p className="font-bold">{item.price}₽</p>
+                  </div>
+                );
+              })}
+            </div>
+          </>
+        )}
 
-            {size !== 0 && (
-              <ProductChooser
-                options={sizesList}
-                optionState={size}
-                setOptionState={onSizeChange}
-                optionLabels={sizeLables}
-              />
-            )}
-            {type !== 0 && (
-              <ProductChooser
-                options={typesList}
-                optionState={type}
-                setOptionState={onTypeChange}
-                optionLabels={typesLables[product.categoryId]}
-              />
-            )}
-
-            {product.ingredients.length > 0 && (
-              <>
-                <Title size="m" className="mt-5 mb-4">
-                  Добавить по вкусу:
-                </Title>
-                <div className="flex flex-wrap gap-3 max-h-65 overflow-y-auto">
-                  {product.ingredients.map((item) => {
-                    return (
-                      <div
-                        key={item.id}
-                        className={`flex flex-col gap-2 p-2 rounded-xl w-25 text-center mt-2 mb-0.5 cursor-pointer border border-gray-100 transition-all hover:mt-1 hover:mb-1.5 ${
-                          selectedIng.indexOf(item.id) !== -1 && "bg-red-50"
-                        }`}
-                        onClick={() => onChangeIngList(item.id)}
-                      >
-                        <Image
-                          width={50}
-                          height={50}
-                          src={item.imageUrl}
-                          alt={item.name}
-                          className="m-auto"
-                        />
-                        <p className="text-xs">{item.name}</p>
-                        <p className="font-bold">{item.price}₽</p>
-                      </div>
-                    );
-                  })}
-                </div>
-              </>
-            )}
-
-            <Button onClick={onClickAddButton} className="mt-10 cursor-pointer">
-              Добавить в корзину за {totalPrice}₽
-            </Button>
-          </div>
-        </div>
-      </DialogContent>
-    </Dialog>
+        <Button
+          onClick={onClickAddButton}
+          className="mt-10 cursor-pointer"
+          size="lg"
+        >
+          Добавить в корзину за {totalPrice}₽
+        </Button>
+      </div>
+    </div>
   );
 };

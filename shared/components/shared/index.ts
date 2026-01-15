@@ -5,3 +5,5 @@ export { TopBar } from "./topbar";
 export { Filters } from "./filters";
 export { MenuCategory } from "./menu-category";
 export { ProductSearch } from "./product-search";
+export { ProductInfo } from "./product-info";
+export { CheckoutForm } from "./checkout-form";

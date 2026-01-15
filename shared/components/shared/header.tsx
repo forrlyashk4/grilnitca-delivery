@@ -9,10 +9,14 @@ import Link from "next/link";
 import { CartButton } from "./cart/cart-button";
 
 export interface HeaderProps {
+  isCheckout?: boolean;
   className?: string;
 }
 
-export const Header: React.FC<HeaderProps> = ({ className }) => {
+export const Header: React.FC<HeaderProps> = ({
+  className,
+  isCheckout = true,
+}) => {
   return (
     <header className={clsx("border border-b", className)}>
       <Container className="flex items-center justify-between py-8 gap-8">
@@ -33,7 +37,7 @@ export const Header: React.FC<HeaderProps> = ({ className }) => {
           </div>
         </Link>
 
-        <ProductSearch />
+        <ProductSearch className={isCheckout ? "hidden" : ""} />
 
         <div className="flex gap-3">
           <Button
@@ -44,7 +48,7 @@ export const Header: React.FC<HeaderProps> = ({ className }) => {
             <span className="leading-[initial]">Войти</span>
           </Button>
           <div>
-            <CartButton />
+            <CartButton className={isCheckout ? "hidden" : ""} />
           </div>
         </div>
       </Container>

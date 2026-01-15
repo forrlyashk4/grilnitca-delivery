@@ -4,10 +4,14 @@ import { CartDrawer } from "./cart-drawer";
 import { ArrowRight, ShoppingCart } from "lucide-react";
 import { useCart } from "@/shared/hooks";
 
-export const CartButton: React.FC = () => {
+interface CartButtonProps {
+  className?: string;
+}
+
+export const CartButton: React.FC<CartButtonProps> = ({ className }) => {
   const { items, amount } = useCart(true);
   return (
-    <CartDrawer>
+    <CartDrawer className={className}>
       <b className="leading-[initial] text-sm">{amount} ₽</b>
       <span className="h-full w-px bg-white/30 mx-3" />
       <div className="flex items-center gap-1 transition duration-300 group-hover:opacity-0">

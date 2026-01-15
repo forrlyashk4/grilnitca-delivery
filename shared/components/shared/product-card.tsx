@@ -19,8 +19,8 @@ export const ProductCard: React.FC<ProductCardProps> = ({
   return (
     <Link href={`/product/${data.id}`}>
       <div className={clsx("w-72", className)}>
-        <div className="bg-red-50 p-5 relative w-72 h-72 rounded-md object-cover z-0">
-          <Image fill src={data.imageUrl} alt={data.name} />
+        <div className="bg-red-50 relative w-72 h-72 rounded-md object-cover z-0">
+          <Image width={288} height={288} src={data.imageUrl} alt={data.name} />
         </div>
         <Title size="l" className="mt-3">
           {data.name}
